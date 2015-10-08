@@ -50,7 +50,7 @@ int main()
             perror("msgrcv: msgrcv failed\n");
             exit(1);
         }
-        printf("You wrote: %s", sometext.message);
+        printf("You wrote: %s\n", sometext.message);
         if(strncmp(sometext.message,"end",3)==0){
             printf("message ends.\n");
             /*delete the message queue */

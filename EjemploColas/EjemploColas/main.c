@@ -49,7 +49,9 @@ int main(int argc, const char * argv[]) {
     while(1){
         /*read user input from the keyboard */
         printf("Please ener some text:\n");
-        fgets(buffer, BUFSIZ, stdin);
+        //fgets(buffer, BUFSIZ, stdin);
+        scanf(" %[^\n]s", buffer);
+        printf("Introdujiste: %s\n", buffer);
         /*set the msgtype */
         sometext.msgtype = 1;
         /*copy from buffer to message*/
