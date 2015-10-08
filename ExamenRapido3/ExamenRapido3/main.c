@@ -116,7 +116,7 @@ int main(int argc, const char * argv[]) {
 void impresionPadre(int ids)
 {
     printf("Se ha pulsado %d veces CTRL+C y se ha pulsado %d veces CTRL+Z. Acabando…\n",c,z);
-    //kill(*buffGen, SIGKILL);
+    kill(getpid(), SIGKILL);
     //printf("El pid es: %d", *buffGen);
     
 }
