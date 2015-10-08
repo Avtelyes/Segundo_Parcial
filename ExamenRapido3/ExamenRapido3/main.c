@@ -75,6 +75,8 @@ int main(int argc, const char * argv[]) {
     }
     else if (hijo == 0)
     {
+        signal(SIGTSTP,SIG_IGN);
+        signal(SIGINT, SIG_IGN);
         sleep(10);
         *buffer = getpid();
         kill(getppid(), SIGUSR1);
@@ -84,6 +86,8 @@ int main(int argc, const char * argv[]) {
         if (signal(SIGUSR1,impresionPadre) == SIG_ERR){
             printf("No se pudo establecer el manejador de la visualizacion.....FAIL\n");
         }
+        signal(SIGTSTP,SIG_IGN);
+        signal(SIGINT, SIG_IGN);
         if (signal(SIGTSTP,contadorCTRLZ) == SIG_ERR){
             printf("No se pudo establecer el manejador de la senal.....FAIL\n");
         }
@@ -113,7 +117,7 @@ void impresionPadre(int ids)
 {
     printf("Se ha pulsado %d veces CTRL+C y se ha pulsado %d veces CTRL+Z. Acabando…\n",c,z);
     //kill(*buffGen, SIGKILL);
-    printf("El pid es: %d", *buffGen);
+    //printf("El pid es: %d", *buffGen);
     
 }
 
