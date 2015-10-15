@@ -13,6 +13,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+void gestor_alarm(int);
+int grabar = 1;
+
 int main(int argc, const char * argv[])
 {
     
@@ -34,10 +37,12 @@ int main(int argc, const char * argv[])
     
     int i;
     char * dst= "touch a";
+    char * temp;
     
     for(i=0; i<5; ++i)
     {
-        itoa(i, dst+7, i);
+        sprintf(temp, ", val%d", i);
+        strcat(dst, temp);
         system(dst);
     }
     
@@ -48,3 +53,11 @@ int main(int argc, const char * argv[])
     
     return 0;
 }
+
+void gestor_alarm(int senial)
+{
+    printf("***** Ha pulsado CTRL + C (señal número %d) \n", senial);
+}
+
+
+
