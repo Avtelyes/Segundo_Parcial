@@ -39,7 +39,8 @@ int main(int argc, const char * argv[])
         system("mkdir datos");
     }
     
-    system("cd datos/");
+    chdir("datos/");
+    system("rm *");
     system("touch a");
     
     int i;
@@ -64,8 +65,7 @@ int main(int argc, const char * argv[])
     
     closedir (pDir);
     
-    system("cd ..");
-    system("ls -la datos/");
+    system("ls -la *");
     
     
     return 0;
