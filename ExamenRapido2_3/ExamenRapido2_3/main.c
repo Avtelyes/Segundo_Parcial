@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void gestor_alarm(int);
 int grabar = 1;
@@ -25,6 +26,10 @@ int main(int argc, const char * argv[])
     
     sigdelset(&todas, SIGALRM);
     
+    int err;
+    
+    signal(SIGALRM, gestor_alarm );
+    
     struct dirent *dir;
     DIR *pDir;
     
@@ -32,8 +37,10 @@ int main(int argc, const char * argv[])
     if (pDir == NULL) {
         printf ("Creando directorio'%s'\n","datos");
         system("mkdir datos");
-        system("cd datos");
     }
+    
+    system("cd datos/");
+    system("touch a");
     
     int i;
     char * dst= "touch a";
@@ -41,14 +48,24 @@ int main(int argc, const char * argv[])
     
     for(i=0; i<5; ++i)
     {
-        sprintf(temp, ", val%d", i);
+        /*sprintf(temp, ", val%d", i);
         strcat(dst, temp);
-        system(dst);
+        printf(dst);
+        system(dst);*/
+        system("touch a");
+    }
+    
+    alarm(3);
+    
+    while (grabar == 1) {
+        system("echo 'x' >> a");
     }
     
     
-    
     closedir (pDir);
+    
+    system("cd ..");
+    system("ls -la datos/");
     
     
     return 0;
@@ -56,7 +73,7 @@ int main(int argc, const char * argv[])
 
 void gestor_alarm(int senial)
 {
-    printf("***** Ha pulsado CTRL + C (señal número %d) \n", senial);
+    grabar = 0;
 }
 
 
