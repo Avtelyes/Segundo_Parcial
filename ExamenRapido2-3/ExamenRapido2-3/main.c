@@ -7,9 +7,30 @@
 //
 
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <signal.h>
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
+    
+    pid_t pid;
+    
+    pid = fork();
+    
+    if(pid < 0)
+    {
+        perror("Error al crear el proceso");
+        exit(-1);
+    }
+    else if (pid == 0)
+    {
+        
+    }
+    else
+    {
+        
+    }
+    
     return 0;
 }
