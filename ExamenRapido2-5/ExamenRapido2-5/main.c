@@ -107,7 +107,8 @@ void * procesa_pedido(void * arg)
             for(; i<asiento;++i)
             {
                 *(asientos+sala) = *(asientos+sala)-1;
-                printf("Soy el cliente %d y ya reserve el asiento en la sala %d\n",id,sala);
+                printf("Soy el cliente %d y ya reserve el asiento en la sala %d, complejo %d\n",id,sala,complejo);
+                usleep(100);
             }
             asiento = 0;
         }
