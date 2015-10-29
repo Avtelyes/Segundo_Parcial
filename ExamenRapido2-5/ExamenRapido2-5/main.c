@@ -19,10 +19,16 @@
 #define ASIENTOS 15
 
 pthread_mutex_t * asientos_t;
-pthread_cond_t * sube_t;
+pthread_cond_t * sala_t;
 
-int * salas;
+//int * salas;
 int * asientos;
+
+typedef struct{
+    int reservando;
+}Sala;
+
+Sala * salas;
 
 void * procesa_pedido(void *);
 
@@ -32,7 +38,10 @@ int main(int argc, const char * argv[]) {
     
     pthread_t * clientes = (pthread_t *) malloc(sizeof(pthread_t) * CLIENTES);
     asientos_t = (pthread_mutex_t * ) malloc(sizeof(pthread_mutex_t) * S);
+    sala_t = (pthread_cond_t * ) malloc(sizeof(pthread_cond_t) * S);
     asientos = (int *) malloc(sizeof(int) * S);
+    
+    salas = (Sala * ) malloc(sizeof(Sala) * S);
     
     int as = 0;
     
@@ -70,6 +79,8 @@ void * procesa_pedido(void * arg)
     int sala = rand() % S;
     int asiento = rand() % 15;
     
+    Sala * salaE = (salas+sala);
+    
     if(eleccion == 0)
         printf("Soy el cliente %d y mi eleccion es el Sitio Web para el complejo %d\n",id,complejo);
     else if (eleccion == 1)
@@ -83,14 +94,37 @@ void * procesa_pedido(void * arg)
     {
         pthread_mutex_lock((asientos_t+sala));
         int i = 0;
-        for(; i<asiento;++i)
+        if(asiento == 0 || *(asientos+sala) == 0)
         {
-            *(asientos+sala) = *(asientos+sala)-1;
-            printf("Soy el cliente %d y ya reserve el asiento\n",id);
+            reserva = 0;
         }
-        reserva = 0;
         pthread_mutex_unlock((asientos_t+sala));
+        
+        pthread_mutex_lock((asientos_t+sala));
+        if(salaE->reservando == 0)
+        {
+            salaE->reservando = 1;
+            for(; i<asiento;++i)
+            {
+                *(asientos+sala) = *(asientos+sala)-1;
+                printf("Soy el cliente %d y ya reserve el asiento en la sala %d\n",id,sala);
+            }
+            asiento = 0;
+        }
+        else
+        {
+            pthread_cond_wait((sala_t+sala), (asientos_t+sala));
+        }
+        
+        pthread_mutex_lock((asientos_t+sala));
     }
+    
+    usleep(rand() % 700);
+    
+    pthread_mutex_lock((asientos_t+sala));
+    salaE->reservando = 0;
+    pthread_cond_broadcast((sala_t+sala));
+    pthread_mutex_unlock((asientos_t+sala));
     
     pthread_exit(NULL);
 }
