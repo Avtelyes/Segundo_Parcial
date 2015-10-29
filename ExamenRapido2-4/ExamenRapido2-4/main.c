@@ -77,6 +77,7 @@ void tomar_ingrediente(int i, Materiales * mat)
         if(ingredientes[0] == 2 || ingredientes[1] == 2 )
         {
             pthread_mutex_trylock(&m_cerillo);
+            printf("Fumador %d Tomando Cerillo\n",i);
             mat->cerillo = 1;
             pthread_mutex_unlock(&m_cerillo);
         }
@@ -89,6 +90,7 @@ void tomar_ingrediente(int i, Materiales * mat)
         if(ingredientes[0] == 0 || ingredientes[1] == 0 )
         {
             pthread_mutex_trylock(&m_tabaco);
+            printf("Fumador %d Tomando Tabaco\n",i);
             mat->tabaco = 1;
             pthread_mutex_unlock(&m_tabaco);
         }
@@ -101,6 +103,7 @@ void tomar_ingrediente(int i, Materiales * mat)
         if(ingredientes[0] == 1 || ingredientes[1] == 1 )
         {
             pthread_mutex_trylock(&m_papel);
+            printf("Fumador %d Tomando Papel\n",i);
             mat->papel = 1;
             pthread_mutex_unlock(&m_papel);
         }
